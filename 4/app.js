@@ -13,6 +13,12 @@ const board =
   6, 7, 6, 1
 ];
 
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
 const getRow = (i) => board.slice(i * x, (i + 1) * x);
 const getCol = (i) => [...Array(x).keys()].map((j) => board[i + j * x]);
 
@@ -48,12 +54,13 @@ const printBoard = () => {
 };
 
 const validateBoard = () => {
+  let placesToBeRemoved = new Set();
   for (let i = 0; i < x; i++) {
     const row = getRow(i);
     const col = getCol(i);
 
-    if (validateLine(row) || validateLine(col)) {
-      return console.log("VALID");
+    if (validateLine(row)){
+      const indizes = 
     }
   }
   return console.log("INVALID");
@@ -64,9 +71,9 @@ const between0And15 = (n) => !isNaN(n) && n >= 0 && n <= 15;
 const isDir = (s) => ["l", "u", "r", "d"].includes(s);
 const dirToN = {
   l: -1,
-  u: -x,
+  u: -4,
   r: +1,
-  d: +x,
+  d: +4,
 };
 
 const rl = readline.createInterface({ input, output });

@@ -6,7 +6,8 @@
   "scripts": {
     "1": "node 1/app.js",
     "2": "node 2/app.js",
-    "3": "node 3/app.js"
+    "3": "node 3/app.js",
+    "4": "node 4/app.js"
   },
   "repository": {
     "type": "git",
