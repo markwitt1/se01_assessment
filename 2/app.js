@@ -1,22 +1,32 @@
 const readline = require("node:readline/promises");
 const { stdin: input, stdout: output } = require("process");
 
+//board is an x*x matrix
+const x = 4;
+
 // prettier-ignore
 const board = 
 [
-    2, 1, 2, 3,
-    5, 4, 4, 5,
-    0, 5, 3, 4,
-    6, 7, 6, 1
+  2, 1, 2, 3,
+  5, 4, 4, 5,
+  0, 5, 3, 4,
+  6, 7, 6, 1
 ];
 
-const getRow = (i) => board.slice(i * 4, i * 4 + 4);
-const getCol = (i) => [board[i], board[i + 4], board[i + 8]];
+const getRow = (i) => board.slice(i * x, (i + 1) * x);
+const getCol = (i) => [...Array(x).keys()].map((j) => board[i + j * x]);
 
-validateLine = (line) => line.every((el) => el === line[0]);
+validateLine = (line) => {
+  for (let i = 0; i < line.length; i++) {
+    if (line[i] === line[i - 1] && line[i] == line[i + 1]) {
+      return true;
+    }
+  }
+  return false;
+};
 
 const printBoard = () => {
-  [0, 1, 2].map(getRow).forEach((row) => console.log(row.join(" ")));
+  [0, 1, 2, 3].map(getRow).forEach((row) => console.log(row.join(" ")));
 };
 
 const validateBoard = () => {
