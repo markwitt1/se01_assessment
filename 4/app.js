@@ -7,8 +7,8 @@ const x = 4;
 // prettier-ignore
 const board = 
 [
-  2, 1, 2, 3,
-  5, 4, 4, 5,
+  1, 1, 0, 1,
+  5, 1, 1, 5,
   0, 5, 3, 4,
   6, 7, 6, 1
 ];
@@ -23,31 +23,37 @@ const getRow = (i) => board.slice(i * x, (i + 1) * x);
 const getCol = (i) => [...Array(x).keys()].map((j) => board[i + j * x]);
 
 const validateLine = (line) => {
+  let longest = [];
   for (let i = 0; i < line.length; i++) {
-    if (line[i] === line[i - 1] && line[i] == line[i + 1]) {
-      return [i - 1, i, i + 1];
+    let temp = [i];
+    if (line[i - 1] === line[i]) {
+      temp = temp.concat(validateLineStep(line, i - 1, -1));
     }
+    if (line[i + 1] === line[i]) {
+      temp = temp.concat(validateLineStep(line, i + 1, +1));
+    }
+    if (temp.length > longest.length) longest = [...temp];
+  }
+  if (longest.length >= 3) {
+    console.log(longest);
+    return new Set(longest);
   }
   return false;
 };
 
-const detectBomb = () => {
-  for (let i = 0; i < x; i++) {
-    for (let j = 0; j < x; j++) {
-      axisPos = i + x * j;
-      //check if there is a col going down
-      if (
-        board[axisPos] === board[axisPos + x] &&
-        board[axisPos] === board[axisPos + 2 * x]
-      ) {
-        const row = getRow(j);
-        if (validateLine(row)?.includes?.(i)) {
-          console.log("BOMB");
-        }
-      }
-    }
+// tried to write a recursive function to get the rows (even when its 4 for example) but failed miserably
+// I should have represented the board with an actual matrix (nested array). That would have simplified it a lot
+
+const validateLine = (line) => {
+  for (let i = 0; i < line.length; i++) {
+    let temp = [];
+    temp = [line[i]];
+    temp = temp.concat(validateLineStep(line.slice(i + 1), line[i]));
+    temp = temp.concat(validateLineStep(line.slice(0, i), line[i]));
   }
 };
+
+const validateLineStep = (line, n) => {};
 
 const printBoard = () => {
   [0, 1, 2, 3].map(getRow).forEach((row) => console.log(row.join(" ")));
@@ -59,11 +65,22 @@ const validateBoard = () => {
     const row = getRow(i);
     const col = getCol(i);
 
-    if (validateLine(row)){
-      const indizes = 
+    const rowIndizes = validateLine(row);
+    if (rowIndizes) {
+      for (rowIndex in rowIndizes) {
+        placesToBeRemoved.add(parseInt(rowIndex) + i * x);
+      }
+    }
+
+    const colIndizes = validateLine(col);
+    if (colIndizes) {
+      for (colIndex in colIndizes) {
+        placesToBeRemoved.add(i + parseInt(colIndex) * x);
+      }
     }
   }
-  return console.log("INVALID");
+  console.log(placesToBeRemoved.size > 0 ? "VALID" : "INVALID");
+  return placesToBeRemoved;
 };
 
 const between0And15 = (n) => !isNaN(n) && n >= 0 && n <= 15;
@@ -107,7 +124,8 @@ const runGame = async () => {
     [board[first], board[second]] = [board[second], board[first]];
     printBoard();
     detectBomb();
-    validateBoard();
+    const placesToBeRemoved = validateBoard();
+    console.log(placesToBeRemoved);
   } else {
     console.log("INVALID: jewels have to be next to each other");
   }
