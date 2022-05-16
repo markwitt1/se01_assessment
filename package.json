@@ -1,0 +1,19 @@
+{
+  "name": "se01_assessment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "1/app.js",
+  "scripts": {
+    "1": "node 1/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/teknoalex/se01_assessment.git"
+  },
+  "author": "Mark Witt",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/teknoalex/se01_assessment/issues"
+  },
+  "homepage": "https://github.com/teknoalex/se01_assessment#readme"
+}
