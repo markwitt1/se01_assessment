@@ -4,10 +4,10 @@ const { stdin: input, stdout: output } = require("process");
 // prettier-ignore
 const board = 
 [
- 2, 1, 2, 3,
- 5, 4, 4, 5,
- 0, 5, 3, 4,
- 6, 7, 6, 1
+    2, 1, 2, 3,
+    5, 4, 4, 5,
+    0, 5, 3, 4,
+    6, 7, 6, 1
 ];
 
 const getRow = (i) => board.slice(i * 4, i * 4 + 4);
@@ -20,7 +20,7 @@ const printBoard = () => {
 };
 
 const validateBoard = () => {
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 4; i++) {
     const row = getRow(i);
     const col = getCol(i);
 
